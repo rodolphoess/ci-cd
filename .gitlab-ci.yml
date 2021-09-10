@@ -10,4 +10,6 @@ before_script:
 build-docker:
   stage: build
   script:
-    - docker build -t minha-imagem .
+    - docker build -t minha-imagem . #Comando para construção da imagem minha-imagem com tag baseada na docker:stable
+    - docker tag minha-imagem rodolphoerick/minha-imagem:latest #Comando para criar uma tag para subir no repositório do Docker Hub
+    - docker push rodolphoerick/minha-imagem:latest #Comando para realizar o push da tag no Docker Hub
