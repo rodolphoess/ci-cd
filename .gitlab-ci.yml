@@ -5,7 +5,7 @@ services:
 
 before_script:
 - docker info #Pra garantir que o docker está executando, antes de qualquer script será executado esse comando docker.
-- docker login -u $CI_REGISTRY_USER --password-stdin #Executa o login no Docker Hub pegando as variáveis de CI_REGISTRY_USER e CI_REGISTRY_PASSWORD de Settings -> CI/CD -> Variables, que foram previamente criadas lá.
+- docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY_PASSWORD #Executa o login no Docker Hub pegando as variáveis de CI_REGISTRY_USER e CI_REGISTRY_PASSWORD de Settings -> CI/CD -> Variables, que foram previamente criadas lá.
 
 build-docker:
   stage: build
