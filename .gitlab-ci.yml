@@ -1,10 +1,11 @@
 image: docker:stable
 
 services:
-- docker:dind
+- docker:dind #Serviço para executar o docker dentro de uma imagem docker.
 
 before_script:
-- docker info
+- docker info #Pra garantir que o docker está executando, antes de qualquer script será executado esse comando docker.
+- docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD #Executa o login no Docker Hub pegando as variáveis de CI_REGISTRY_USER e CI_REGISTRY_PASSWORD de Settings -> CI/CD -> Variables, que foram previamente criadas lá.
 
 build-docker:
   stage: build
