@@ -23,6 +23,7 @@ build-docker:
 
 
 build-project:
+  stage: build
   image: rodolphoerick/minha-imagem:latest
   services:
   - docker:dind
@@ -39,12 +40,36 @@ build-project:
     DB_HOST: 'mysql'
     DB_PORT: '3306'
     SECRET_KEY: 'r*5ltfzw-61ksdm41fuul8+hxs$86yo9%k1%k=(!@=-wv4qtyv'
-
-  stage: build
-  tags:
-  - executor-tarefas
   dependencies:
   - build-docker
+  tags:
+  - executor-tarefas
   script:
   - python manage.py makemigrations
   - python manage.py migrate
+
+
+test-project:
+  stage: test
+  image: rodolphoerick/minha-imagem:latest
+  services:
+  - docker:dind
+  - mysql:5.7
+  variables:
+    MYSQL_USER: devops_dev
+    MYSQL_PASSWORD: mestre
+    MYSQL_DATABASE: todo_dev
+    MYSQL_ROOT_PASSWORD: senha
+
+    DB_NAME: 'todo_dev'
+    DB_USER: 'devops_dev'
+    DB_PASSWORD: 'mestre'
+    DB_HOST: 'mysql'
+    DB_PORT: '3306'
+    SECRET_KEY: 'r*5ltfzw-61ksdm41fuul8+hxs$86yo9%k1%k=(!@=-wv4qtyv'
+  dependencies:
+  - build-project
+  tags:
+  - executor-tarefas
+  script:
+  - python -m unittest setUp
